@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Order Confirmation";
+}
+<link rel="stylesheet" href="~/css/animate.css"/>
+
+<div class="container d-flex justify-content-center align-items-center">
+    <div class="text-center p-4 border rounded box-shadow" style="width: 100%; max-width: 500px;">
+        <div class="swal2-icon swal2-success swal2-animate-success-icon" style="display: flex; justify-content: center; margin-bottom: 20px;">
+            <div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+            <span class="swal2-success-line-tip"></span>
+            <span class="swal2-success-line-long"></span>
+            <div class="swal2-success-ring"></div>
+            <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+            <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+        </div>
+        <h2>Order Confirmation</h2>
+        <p>@ViewBag.Message</p>
+        <p>Thank you for shopping with us!</p>
+        <a class="btn btn-primary" asp-controller="Orders" asp-action="Index">Go to Orders</a>
+    </div>
+</div>
+
+<style>
+    /* Container styling */
+    .container {
+        height: 70vh; /* Full viewport height for centering */
+    }
+
+    /* Center box styling */
+    .box-shadow {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow for the box */
+        border: 1px solid #ddd; /* Light border */
+        border-radius: 8px; /* Rounded corners */
+        padding: 20px; /* Padding for spacing */
+        background-color: #fff; /* White background */
+    }
+</style>

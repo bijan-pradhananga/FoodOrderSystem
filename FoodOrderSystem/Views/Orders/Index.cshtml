@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Order>
+<!-- Include jQuery first, then Bootstrap's JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRgW8a7snz+Dk3ll+GXw+78C2B8UeY5y4zdA7/u7g" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-LtrjvnR4/Jqs6E7vf64It7BeE67JPpB7g7Tn7j0h3dMmyT4NUdjD5RTJkSoH4kz6" crossorigin="anonymous"></script>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">My Orders</h2>
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <strong>@TempData["Message"]</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (Model.Any())
+    {
+        @foreach (var order in Model)
+        {
+            <div class="card mb-3 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between">
+                        <span>Order #@order.Id</span>
+                        <span>@order.OrderDate.ToString("yyyy-MM-dd")</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p><strong>Status:</strong> @order.Status</p>
+                    <p><strong>Total Amount:</strong> Rs. @order.TotalAmount.ToString("F2")</p>
+
+                    <h5 class="mt-4">Items:</h5>
+                    <ul class="list-group list-group-flush">
+                        @foreach (var item in order.OrderItems)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="my-0">@item.Product.Name</h6>
+                                    <small class="text-muted">Quantity: @item.Quantity</small>
+                                </div>
+                                <span class="text-muted">
+                                    Rs. @(item.Quantity * item.Price)
+                                </span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                @if (order.Status != OrderStatus.Cancelled) 
+                {
+                    <div class="card-footer text-end">
+                        <form asp-action="CancelOrder" asp-controller="Orders" method="post" class="d-inline">
+                            <input type="hidden" name="orderId" value="@order.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                        </form>
+                    </div>
+                }
+
+                
+              
+            </div>
+        }
+    }
+    else
+    {
+        <div class="alert alert-warning text-center">
+            You have no orders yet.
+        </div>
+    }
+</div>
+

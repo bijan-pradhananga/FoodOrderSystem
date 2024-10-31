@@ -1,0 +1,44 @@
+﻿@model List<Product>
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="container mb-4">
+    <div class="container mt-5 py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6 text-center order-lg-2 mb-4 mb-lg-0">
+                <img src="~/images/fastfood.png" alt="Delicious Food" class="img-fluid" style="max-width: 100%; height: auto;">
+            </div>
+            
+            <div class="col-lg-6 order-lg-1">
+                <h1 class="display-4">Delicious Meals Delivered to Your Doorstep</h1>
+                <p class="lead">Experience the best of fast food with our variety of meals. Satisfy your cravings and enjoy our special discounts!</p>
+                <a class="btn btn-primary btn-lg" asp-area="" asp-controller="Products" asp-action="Index">Shop Now</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="container">
+            <h3 class="mb-4">Latest Products</h3>
+            <div class="row">
+            @foreach (var product in Model)
+                {  
+                    <div class="col-sm-12 col-md-6 col-lg-3">
+
+                        <div class="card mb-2" style="width: 100%;">
+                            <img src="/products/@product.ImagePath" class="card-img-top" height="200" style="object-fit:cover">
+                            <div class="card-body">
+                                <h5 class="card-title">@product.Name</h5>
+                                <p class="card-text">Rs. @product.Price</p>
+                                <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary">See Details</a>
+                            </div>
+                        </div>
+                    </div> 
+                }
+
+            </div>
+        </div>
+
+    </div>
+</div>
+

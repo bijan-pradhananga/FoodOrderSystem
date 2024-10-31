@@ -1,0 +1,20 @@
+﻿@model Category
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Edit Category</h1>
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">Edit Category</h3>
+        <form asp-controller="Categories" asp-action="Edit" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label class="form-label">Category Name</label>
+                <input asp-for="Category_Name" class="form-control" />
+                <span asp-validation-for="Category_Name" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block mt-3">Update</button>
+        </form>
+    </div>
+</div>

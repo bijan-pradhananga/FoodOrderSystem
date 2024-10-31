@@ -1,0 +1,51 @@
+﻿@model List<Product>
+
+<div class="row mt-4">
+    <div class="container">
+        <h3 class="mb-4">Products</h3>
+ <div class="d-flex justify-content-between mb-3">
+    <!-- Category Filter Dropdown -->
+    <form method="get">
+                @Html.DropDownList("categoryId",
+                         new SelectList(ViewBag.Categories, "Value", "Text", Context.Request.Query["categoryId"]),
+                         "All Categories",
+                         new { @class = "form-select", onchange = "this.form.submit()" })
+
+
+    </form>
+
+    <!-- Sort By Dropdown -->
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Sort By
+        </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="sortDropdown">
+                    <li><a class="dropdown-item" href="?&categoryId=@Context.Request.Query["categoryId"]">Default</a></li>
+                    <li><a class="dropdown-item" href="?sortOrder=price_asc&categoryId=@Context.Request.Query["categoryId"]">Price: Low to High</a></li>
+                    <li><a class="dropdown-item" href="?sortOrder=price_desc&categoryId=@Context.Request.Query["categoryId"]">Price: High to Low</a></li>
+                </ul>
+
+    </div>
+</div>
+
+        <div class="row">
+            @foreach (var product in Model)
+            {
+                <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
+                    <a class="text-black text-decoration-none"  asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
+                    <div class="card" style="width: 100%;">
+                        <div class="p-2">
+                                <img src="/products/@product.ImagePath" height="200" class="card-img-top" style="object-fit:cover">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text">@product.Price</p>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

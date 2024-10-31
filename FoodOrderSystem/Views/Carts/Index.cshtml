@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Cart>
+@{
+    var totalCost = Model.Sum(item => item.Product.Price * item.Quantity);
+}
+
+<div class="container mt-5">
+    <h3>Your Cart</h3>
+    @if (!Model.Any())
+    {
+        <p>Your cart is empty.</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <img src="/products/@item.Product.ImagePath" width="50" height="50" alt="@item.Product.Name" class="me-2">
+                            @item.Product.Name
+                        </td>
+                        <td>Rs. @item.Product.Price</td>
+                        <td>
+                            @item.Quantity
+                        </td>
+                        <td>Rs. @(item.Product.Price * item.Quantity)</td>
+                        <td>
+                            <a class="btn btn-danger btn-sm" asp-controller="Carts" asp-action="Remove" asp-route-id="@item.Id">Remove</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="text-end">
+            <h4>Total: Rs. @totalCost</h4>
+            <form method="post" asp-action="Checkout" asp-controller="Orders">
+                <button type="submit" class="btn btn-primary mt-3">Proceed to Checkout</button>
+            </form>
+        </div>
+    }
+</div>
+
+ <script>
+     // function updateQuantity(productId, change) {
+     //     const quantityInput = document.getElementById(`quantity-${productId}`);
+     //     let currentQuantity = parseInt(quantityInput.value);
+     //     let newQuantity = currentQuantity + change;
+
+     //     if (newQuantity >= 1) {
+     //         quantityInput.value = newQuantity;
+
+     //         Send update to server
+     //         fetch(`/Cart/UpdateQuantity`, {
+     //             method: 'POST',
+     //             headers: {
+     //                 'Content-Type': 'application/json'
+     //             },
+     //             body: JSON.stringify({
+     //                 productId: productId,
+     //                 quantity: newQuantity
+     //             })
+     //         }).then(response => {
+     //             if (response.ok) {
+     //                 Reload the page to reflect updated quantities and prices
+     //                 location.reload();
+     //             } else {
+     //                 alert("Failed to update quantity. Please try again.");
+     //             }
+     //         });
+     //     }
+     // }
+ </script>

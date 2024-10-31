@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Order>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+    <div class="flex">
+        <h3>Orders</h3>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">Order ID</th>
+            <th scope="col">Date</th>
+            <th scope="col">Total Amount</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.Id</td>
+                    <td>@order.OrderDate.ToShortDateString()</td>
+                    <td>Rs. @order.TotalAmount</td>
+                    <td>@order.Status</td>
+                    <td>
+                        @if (order.Status == OrderStatus.Pending)
+                        {
+                            <form asp-action="CancelOrder" method="post" class="d-inline">
+                                <input type="hidden" name="orderId" value="@order.Id" />
+                                <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                            </form>
+                            <form asp-action="ConfirmOrder" method="post" class="d-inline">
+                                <input type="hidden" name="orderId" value="@order.Id" />
+                                <button type="submit" class="btn btn-success btn-sm">Confirm Delivery</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="text-muted">No actions available</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
