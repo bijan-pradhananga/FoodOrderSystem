@@ -70,7 +70,7 @@ namespace FoodOrderSystem.Controllers
 
 		// Cancel Order
 		[HttpPost]
-        [Authorize(Roles = "Customer")]
+        [Authorize]
         public async Task<IActionResult> CancelOrder(int orderId)
 		{
 			var order = await _context.Orders
@@ -98,8 +98,15 @@ namespace FoodOrderSystem.Controllers
 			await _context.SaveChangesAsync(); // Save changes to the database
 
 			TempData["Message"] = "Order has been cancelled successfully.";
-			return RedirectToAction("Index", "Orders"); // Redirect to the orders list page
-		}
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Display", "Orders"); 
+            }
+            else
+            {
+                return RedirectToAction("Index", "Orders"); 
+            }
+        }
 
 
 		// Confirm Order
