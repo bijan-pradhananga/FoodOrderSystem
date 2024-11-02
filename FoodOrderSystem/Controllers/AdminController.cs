@@ -20,6 +20,7 @@ public class AdminController : Controller
         _userManager = userManager;
     }
 
+
     // GET: /Admin/Login
     [HttpGet]
     public IActionResult Login(string returnUrl = "~/Admin/Login")
@@ -61,15 +62,6 @@ public class AdminController : Controller
     }
 
 
-
-
-    // Optional: Logout action
-    public async Task<IActionResult> Logout(string returnUrl = null)
-    {
-        await _signInManager.SignOutAsync();
-        return LocalRedirect(returnUrl ?? Url.Content("~/Admin/Login"));
-    }
-
     // Home action for admin
     [HttpGet]
     [Authorize(Roles = "Admin")]
@@ -79,13 +71,27 @@ public class AdminController : Controller
         var productCount = await _context.Products.CountAsync();
         var categoryCount = await _context.Categories.CountAsync();
         var orderCount = await _context.Orders.CountAsync();
-
-        // Pass counts to the view using ViewBag or a ViewModel
+        var userCount = await _userManager.Users.CountAsync();
+        var orders = await _context.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                 .OrderByDescending(o => o.OrderDate) // Order by latest first
+                .ToListAsync();   
         ViewBag.ProductCount = productCount;
         ViewBag.CategoryCount = categoryCount;
         ViewBag.OrderCount = orderCount;
+        ViewBag.UserCount = userCount;
 
-        return View();
+        return View(orders);
     }
+
+    // Optional: Logout action
+    public async Task<IActionResult> Logout(string returnUrl = null)
+    {
+        await _signInManager.SignOutAsync();
+        return LocalRedirect(returnUrl ?? Url.Content("~/Admin/Login"));
+    }
+
+
 
 }

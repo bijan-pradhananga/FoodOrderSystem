@@ -1,6 +1,133 @@
-﻿@{
+﻿@model IEnumerable<Order>
+@{
     Layout = "~/Views/Shared/_AdminLayout.cshtml"; 
 }
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.3.1/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
 
-<h2>Admin Dashboard</h2>
-<p>Welcome to the Admin Panel.</p>
+    .icon {
+        width: 3rem;
+        height: 3rem;
+    }
+
+        .icon i {
+            font-size: 2.25rem;
+        }
+
+    .icon-shape {
+        display: inline-flex;
+        padding: 12px;
+        text-align: center;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .icon-shape i {
+            font-size: 1.25rem;
+        }
+</style>
+
+<h3 class="mb-4">Welcome to Admin Dashboard</h3>
+<div class="row mb-4">
+    <div class="col-xl-3 col-lg-6">
+        <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Products</h5>
+                        <span class="h2 font-weight-bold mb-0">@ViewBag.ProductCount</span>
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon icon-shape bg-primary text-white rounded-circle shadow">
+                            <i class="fas fa-cutlery"></i>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6">
+        <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Categories</h5>
+                        <span class="h2 font-weight-bold mb-0">@ViewBag.CategoryCount</span>
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon icon-shape bg-success text-white rounded-circle shadow">
+                            <i class="fas fa-cutlery"></i>
+                        </div>
+                    </div>
+                </div>
+             
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6">
+        <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Orders</h5>
+                        <span class="h2 font-weight-bold mb-0">@ViewBag.OrderCount</span>
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                        </div>
+                    </div>
+                </div>
+              
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6">
+        <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Users</h5>
+                        <span class="h2 font-weight-bold mb-0">@ViewBag.UserCount</span>
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <h3 class="mb-4">Latest Orders</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Order ID</th>
+                <th scope="col">Date</th>
+                <th scope="col">Total Amount</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.Id</td>
+                    <td>@order.OrderDate.ToShortDateString()</td>
+                    <td>Rs. @order.TotalAmount</td>
+                    <td>@order.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
